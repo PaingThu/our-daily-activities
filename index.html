@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Memory App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2 text-indigo-600">
+                    <i data-lucide="activity" class="w-8 h-8"></i>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">Workout<span class="text-indigo-600">Memory</span></span>
+                </div>
+                <div class="text-sm text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full">
+                    Source-Data View
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- Sidebar: Stats -->
+            <div class="lg:col-span-1 space-y-4">
+                <div class="bg-indigo-600 rounded-2xl shadow-lg p-6 text-white">
+                    <h3 class="text-indigo-100 uppercase text-xs tracking-wider font-bold mb-4">Quick Stats</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-indigo-200 text-xs mb-1">Total Workouts</p>
+                            <p id="stat-count" class="text-3xl font-bold">0</p>
+                        </div>
+                        <div>
+                            <p class="text-indigo-200 text-xs mb-1">Total Duration</p>
+                            <p id="stat-time" class="text-3xl font-bold">0m</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 border border-slate-200">
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Data is managed manually in the source code. To add more entries, update the <code>memory</code> array in the script section.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Content: Workout Gallery -->
+            <div class="lg:col-span-3">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Activity Log</h2>
+                    <span id="entry-count-label" class="text-sm font-semibold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100"></span>
+                </div>
+
+                <div id="memory-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
+                    <!-- Cards injected here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="hidden flex-col items-center justify-center py-24 bg-white rounded-2xl border-2 border-dashed border-slate-200">
+                    <i data-lucide="calendar" class="w-12 h-12 text-slate-300 mb-4"></i>
+                    <p class="text-slate-500 font-medium">No workout data found.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * MANUAL DATA ENTRY
+         * Update your workout records here.
+         */
+        const memory = [
+            { type: 'Meditation', time: '00:15', date: '2026-02-25' },
+            { type: 'Walking', time: '00:45', date: '2026-02-25' },
+            { type: 'Running', time: '00:35', date: '2026-02-24' },
+            { type: 'Learning', time: '00:30', date: '2026-02-24' },
+            { type: 'Strength', time: '01:15', date: '2026-02-23' },
+            { type: 'Cardio', time: '00:45', date: '2026-02-22' }
+        ];
+
+        const container = document.getElementById('memory-container');
+        const emptyState = document.getElementById('empty-state');
+
+        // Initialize view
+        window.onload = () => {
+            renderMemories();
+        };
+
+        function renderMemories() {
+            container.innerHTML = '';
+            
+            if (!memory || memory.length === 0) {
+                emptyState.classList.remove('hidden');
+                container.classList.add('hidden');
+                document.getElementById('stat-count').innerText = "0";
+                document.getElementById('stat-time').innerText = "0m";
+                lucide.createIcons();
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            container.classList.remove('hidden');
+
+            let totalMinutes = 0;
+
+            memory.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-300 transition-all duration-300";
+                
+                // Calculate total time
+                const [hrs, mins] = (item.time || "00:00").split(':').map(Number);
+                totalMinutes += (hrs * 60) + mins;
+
+                // Determine icon based on type
+                let icon = 'dumbbell';
+                let colorClass = 'bg-indigo-100 text-indigo-600';
+                
+                const type = (item.type || 'Workout').toLowerCase();
+                if (type.includes('learn')) { 
+                    icon = 'book-open'; 
+                    colorClass = 'bg-amber-100 text-amber-600'; 
+                } else if (type.includes('cardio')) { 
+                    icon = 'heart'; 
+                    colorClass = 'bg-rose-100 text-rose-600'; 
+                } else if (type.includes('strength')) { 
+                    icon = 'dumbbell'; 
+                    colorClass = 'bg-slate-100 text-slate-600'; 
+                } else if (type.includes('walk')) {
+                    icon = 'footprints';
+                    colorClass = 'bg-emerald-100 text-emerald-600';
+                } else if (type.includes('run')) {
+                    icon = 'zap';
+                    colorClass = 'bg-orange-100 text-orange-600';
+                } else if (type.includes('meditation')) {
+                    icon = 'sparkles';
+                    colorClass = 'bg-purple-100 text-purple-600';
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 rounded-xl ${colorClass}">
+                                <i data-lucide="${icon}" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">${item.type}</h3>
+                                <p class="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                    <i data-lucide="calendar" class="w-3 h-3"></i> ${formatDate(item.date)}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xl font-black text-slate-700">${item.time}</span>
+                            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Duration</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Update Stats
+            document.getElementById('stat-count').innerText = memory.length;
+            document.getElementById('stat-time').innerText = formatTotalTime(totalMinutes);
+            document.getElementById('entry-count-label').innerText = `${memory.length} Sessions`;
+            
+            // Render icons for dynamically added elements
+            lucide.createIcons();
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'No Date';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            try {
+                return new Date(dateStr).toLocaleDateString(undefined, options);
+            } catch(e) {
+                return dateStr;
+            }
+        }
+
+        function formatTotalTime(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return h > 0 ? `${h}h ${m}m` : `${m}m`;
+        }
+    </script>
+</body>
+</html>

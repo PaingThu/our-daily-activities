@@ -13,6 +13,21 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
         }
+        .month-content {
+            transition: max-height 0.3s ease-out, opacity 0.2s ease-in;
+            overflow: hidden;
+        }
+        .month-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        .rotated {
+            transform: rotate(-90deg);
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-900">
@@ -23,56 +38,53 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-2 text-indigo-600">
                     <i data-lucide="activity" class="w-8 h-8"></i>
-                    <span class="font-bold text-xl tracking-tight text-slate-800">Workout<span class="text-indigo-600">Memory</span></span>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">First Two Thrive<span class="text-indigo-600">Memory</span></span>
                 </div>
                 <div class="text-sm text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full">
-                    Source-Data View
+                    MORNING 5 TO 7
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 gap-8">
             
-            <!-- Sidebar: Stats -->
-            <div class="lg:col-span-1 space-y-4">
-                <div class="bg-indigo-600 rounded-2xl shadow-lg p-6 text-white">
-                    <h3 class="text-indigo-100 uppercase text-xs tracking-wider font-bold mb-4">Quick Stats</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <p class="text-indigo-200 text-xs mb-1">Total Workouts</p>
-                            <p id="stat-count" class="text-3xl font-bold">0</p>
-                        </div>
-                        <div>
-                            <p class="text-indigo-200 text-xs mb-1">Total Duration</p>
-                            <p id="stat-time" class="text-3xl font-bold">0m</p>
-                        </div>
+            <!-- Summary Stats (Top Bar) -->
+            <div class="bg-indigo-600 rounded-2xl shadow-lg p-6 text-white flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-6">
+                    <div>
+                        <p class="text-indigo-200 text-xs mb-1 uppercase tracking-wider font-semibold">Total Sessions</p>
+                        <p id="stat-count" class="text-3xl font-black">0</p>
+                    </div>
+                    <div class="w-px h-10 bg-indigo-500 hidden sm:block"></div>
+                    <div>
+                        <p class="text-indigo-200 text-xs mb-1 uppercase tracking-wider font-semibold">Total Time</p>
+                        <p id="stat-time" class="text-3xl font-black">0m</p>
                     </div>
                 </div>
-                
-                <div class="bg-white rounded-2xl p-6 border border-slate-200">
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Data is managed manually in the source code. To add more entries, update the <code>memory</code> array in the script section.
+                <div class="text-right">
+                    <p class="text-indigo-200 text-xs leading-relaxed opacity-80">
+                        Two hours of focus, a lifetime of growth.
                     </p>
                 </div>
             </div>
 
-            <!-- Content: Workout Gallery -->
-            <div class="lg:col-span-3">
+            <!-- Content: Grouped Activity Log -->
+            <div>
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-slate-800">Activity Log</h2>
-                    <span id="entry-count-label" class="text-sm font-semibold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100"></span>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Activity History</h2>
+                    <span id="entry-count-label" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100 uppercase"></span>
                 </div>
 
-                <div id="memory-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
-                    <!-- Cards injected here -->
+                <div id="memory-container" class="space-y-6">
+                    <!-- Month Groups injected here -->
                 </div>
 
                 <!-- Empty State -->
                 <div id="empty-state" class="hidden flex-col items-center justify-center py-24 bg-white rounded-2xl border-2 border-dashed border-slate-200">
                     <i data-lucide="calendar" class="w-12 h-12 text-slate-300 mb-4"></i>
-                    <p class="text-slate-500 font-medium">No workout data found.</p>
+                    <p class="text-slate-500 font-medium">No workout data found in source.</p>
                 </div>
             </div>
         </div>
@@ -84,12 +96,16 @@
          * Update your workout records here.
          */
         const memory = [
-            { type: 'Learning', time: '01:06', date: '2026-02-24' },
-            // { type: 'Walking', time: '00:45', date: '2026-02-25' },
-            // { type: 'Running', time: '00:35', date: '2026-02-24' },
-            // { type: 'Learning', time: '00:30', date: '2026-02-24' },
-            // { type: 'Strength', time: '01:15', date: '2026-02-23' },
-            // { type: 'Cardio', time: '00:45', date: '2026-02-22' }
+            { type: 'Coding', time: '02:30', date: '2026-02-25' },
+            { type: 'Meditation', time: '00:15', date: '2026-02-25' },
+            { type: 'Walking', time: '00:45', date: '2026-02-25', distance: '4.2' },
+            { type: 'Running', time: '00:35', date: '2026-02-24', distance: '5.5' },
+            { type: 'Learning', time: '00:30', date: '2026-02-24' },
+            { type: 'Strength', time: '01:15', date: '2026-02-23' },
+            { type: 'Cardio', time: '00:45', date: '2026-02-22' },
+            { type: 'Walking', time: '00:30', date: '2026-02-22', distance: '2.8' },
+            { type: 'Coding', time: '01:00', date: '2026-01-15' },
+            { type: 'Strength', time: '00:45', date: '2026-01-10' }
         ];
 
         const container = document.getElementById('memory-container');
@@ -99,6 +115,13 @@
         window.onload = () => {
             renderMemories();
         };
+
+        function toggleMonth(monthId) {
+            const content = document.getElementById(`content-${monthId}`);
+            const icon = document.getElementById(`icon-${monthId}`);
+            content.classList.toggle('collapsed');
+            icon.classList.toggle('rotated');
+        }
 
         function renderMemories() {
             container.innerHTML = '';
@@ -115,75 +138,167 @@
             emptyState.classList.add('hidden');
             container.classList.remove('hidden');
 
-            let totalMinutes = 0;
+            const currentMonthName = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
 
-            memory.forEach((item) => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-300 transition-all duration-300";
-                
-                // Calculate total time
+            const monthlyData = {};
+            let globalTotalMinutes = 0;
+
+            memory.forEach(item => {
+                const dateObj = new Date(item.date);
+                const monthName = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+                const dateKey = item.date;
+
                 const [hrs, mins] = (item.time || "00:00").split(':').map(Number);
-                totalMinutes += (hrs * 60) + mins;
+                globalTotalMinutes += (hrs * 60) + mins;
 
-                // Determine icon based on type
-                let icon = 'dumbbell';
-                let colorClass = 'bg-indigo-100 text-indigo-600';
+                if (!monthlyData[monthName]) monthlyData[monthName] = {};
+                if (!monthlyData[monthName][dateKey]) monthlyData[monthName][dateKey] = [];
                 
-                const type = (item.type || 'Workout').toLowerCase();
-                if (type.includes('learn')) { 
-                    icon = 'book-open'; 
-                    colorClass = 'bg-amber-100 text-amber-600'; 
-                } else if (type.includes('cardio')) { 
-                    icon = 'heart'; 
-                    colorClass = 'bg-rose-100 text-rose-600'; 
-                } else if (type.includes('strength')) { 
-                    icon = 'dumbbell'; 
-                    colorClass = 'bg-slate-100 text-slate-600'; 
-                } else if (type.includes('walk')) {
-                    icon = 'footprints';
-                    colorClass = 'bg-emerald-100 text-emerald-600';
-                } else if (type.includes('run')) {
-                    icon = 'zap';
-                    colorClass = 'bg-orange-100 text-orange-600';
-                } else if (type.includes('meditation')) {
-                    icon = 'sparkles';
-                    colorClass = 'bg-purple-100 text-purple-600';
-                }
+                monthlyData[monthName][dateKey].push(item);
+            });
 
-                card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="p-3 rounded-xl ${colorClass}">
-                                <i data-lucide="${icon}" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-slate-800">${item.type}</h3>
-                                <p class="text-xs text-slate-500 flex items-center gap-1 mt-1">
-                                    <i data-lucide="calendar" class="w-3 h-3"></i> ${formatDate(item.date)}
-                                </p>
-                            </div>
+            const sortedMonths = Object.keys(monthlyData).sort((a, b) => new Date(b) - new Date(a));
+
+            sortedMonths.forEach((month, mIdx) => {
+                const monthId = `month-${mIdx}`;
+                const monthContainer = document.createElement('div');
+                monthContainer.className = "bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-6";
+
+                let monthMinutes = 0;
+                let monthSessions = 0;
+                const activitySummary = {}; 
+
+                Object.values(monthlyData[month]).forEach(dayItems => {
+                    monthSessions += dayItems.length;
+                    dayItems.forEach(item => {
+                        const [h, m] = item.time.split(':').map(Number);
+                        const duration = (h * 60) + m;
+                        monthMinutes += duration;
+
+                        if (!activitySummary[item.type]) activitySummary[item.type] = { km: 0, min: 0 };
+                        
+                        if (item.distance) {
+                            activitySummary[item.type].km += parseFloat(item.distance);
+                        }
+                        activitySummary[item.type].min += duration;
+                    });
+                });
+
+                const summaryParts = Object.keys(activitySummary).map(type => {
+                    const data = activitySummary[type];
+                    if (data.km > 0) {
+                        return `<span class="whitespace-nowrap">${type} <span class="text-slate-800 font-bold">${data.km.toFixed(1)}KM</span></span>`;
+                    } else {
+                        return `<span class="whitespace-nowrap">${type} <span class="text-slate-800 font-bold">${formatDuration(data.min)}</span></span>`;
+                    }
+                });
+
+                const monthHeader = document.createElement('button');
+                monthHeader.className = "w-full p-5 bg-slate-50 hover:bg-slate-100 transition-colors border-b border-slate-200 text-left focus:outline-none";
+                monthHeader.onclick = () => toggleMonth(monthId);
+
+                // FIXED LAYOUT: Grid-like structure to ensure month is left and stats are right
+                monthHeader.innerHTML = `
+                    <div class="flex items-start gap-3 w-full">
+                        <div id="icon-${monthId}" class="rotate-icon text-slate-400 mt-1">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
                         </div>
-                        <div class="text-right">
-                            <span class="text-xl font-black text-slate-700">${item.time}</span>
-                            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Duration</p>
+                        <div class="flex-grow">
+                            <div class="flex items-center justify-between w-full">
+                                <h3 class="text-lg font-bold text-slate-800">${month}</h3>
+                                <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                    <span>${monthSessions} sessions</span>
+                                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                    <span class="text-indigo-600 font-black">${formatTotalTime(monthMinutes)}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-x-4 gap-y-1 mt-1 text-[11px] text-slate-500 uppercase tracking-wider font-medium">
+                                ${summaryParts.join('<span class="text-slate-300">•</span>')}
+                            </div>
                         </div>
                     </div>
                 `;
-                container.appendChild(card);
+
+                const monthContent = document.createElement('div');
+                monthContent.id = `content-${monthId}`;
+                monthContent.className = "month-content p-5 space-y-6";
+                
+                const isCurrentMonth = month === currentMonthName;
+                if (!isCurrentMonth) {
+                    monthContent.classList.add('collapsed');
+                }
+
+                const sortedDays = Object.keys(monthlyData[month]).sort((a, b) => new Date(b) - new Date(a));
+                
+                sortedDays.forEach(date => {
+                    const dayGroup = document.createElement('div');
+                    dayGroup.className = "space-y-2";
+
+                    const dayHeader = document.createElement('h4');
+                    dayHeader.className = "text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 flex items-center gap-3";
+                    dayHeader.innerHTML = `<span>${formatDate(date)}</span><div class="h-px bg-slate-100 flex-grow"></div>`;
+                    dayGroup.appendChild(dayHeader);
+
+                    monthlyData[month][date].forEach(item => {
+                        const row = document.createElement('div');
+                        row.className = "bg-white p-3 rounded-xl border border-slate-100 flex items-center justify-between hover:bg-slate-50 transition-colors";
+                        
+                        const config = getActivityConfig(item.type);
+                        const distanceTag = item.distance 
+                            ? `<span class="inline-flex items-center text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-500 border border-indigo-100 ml-2 uppercase">${item.distance} km</span>` 
+                            : '';
+
+                        row.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="p-1.5 rounded-lg ${config.colorClass}">
+                                    <i data-lucide="${config.icon}" class="w-4 h-4"></i>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-sm font-bold text-slate-700">${item.type}</span>
+                                    ${distanceTag}
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-mono font-bold text-slate-600">${item.time}</span>
+                            </div>
+                        `;
+                        dayGroup.appendChild(row);
+                    });
+                    monthContent.appendChild(dayGroup);
+                });
+
+                monthContainer.appendChild(monthHeader);
+                monthContainer.appendChild(monthContent);
+                container.appendChild(monthContainer);
+
+                if (!isCurrentMonth) {
+                    const icon = monthHeader.querySelector(`#icon-${monthId}`);
+                    if (icon) icon.classList.add('rotated');
+                }
             });
 
-            // Update Stats
             document.getElementById('stat-count').innerText = memory.length;
-            document.getElementById('stat-time').innerText = formatTotalTime(totalMinutes);
-            document.getElementById('entry-count-label').innerText = `${memory.length} Sessions`;
+            document.getElementById('stat-time').innerText = formatTotalTime(globalTotalMinutes);
+            document.getElementById('entry-count-label').innerText = `${memory.length} Total Logs`;
             
-            // Render icons for dynamically added elements
             lucide.createIcons();
         }
 
+        function getActivityConfig(typeStr) {
+            const type = (typeStr || 'Workout').toLowerCase();
+            if (type.includes('learn')) return { icon: 'book-open', colorClass: 'bg-amber-100 text-amber-600' };
+            if (type.includes('cardio')) return { icon: 'heart', colorClass: 'bg-rose-100 text-rose-600' };
+            if (type.includes('strength')) return { icon: 'dumbbell', colorClass: 'bg-slate-100 text-slate-600' };
+            if (type.includes('walk')) return { icon: 'footprints', colorClass: 'bg-emerald-100 text-emerald-600' };
+            if (type.includes('run')) return { icon: 'zap', colorClass: 'bg-orange-100 text-orange-600' };
+            if (type.includes('meditation')) return { icon: 'sparkles', colorClass: 'bg-purple-100 text-purple-600' };
+            if (type.includes('coding')) return { icon: 'code', colorClass: 'bg-blue-100 text-blue-600' };
+            return { icon: 'activity', colorClass: 'bg-indigo-100 text-indigo-600' };
+        }
+
         function formatDate(dateStr) {
-            if (!dateStr) return 'No Date';
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            if (!dateStr || dateStr === 'Unknown Date') return dateStr;
+            const options = { month: 'short', day: 'numeric' };
             try {
                 return new Date(dateStr).toLocaleDateString(undefined, options);
             } catch(e) {
@@ -191,10 +306,19 @@
             }
         }
 
+        // Returns "7h 5m" or "30m"
         function formatTotalTime(minutes) {
             const h = Math.floor(minutes / 60);
             const m = minutes % 60;
-            return h > 0 ? `${h}h ${m}m` : `${m}m`;
+            if (h === 0) return `${m}m`;
+            return `${h}h ${m}m`;
+        }
+
+        // Returns "00:00" format for activity summaries
+        function formatDuration(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
         }
     </script>
 </body>

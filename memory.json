@@ -1,4 +1,10 @@
 [
+    { "user": "Wife", "type": "Learning", "time": "01:00", "date": "2026-02-27" },
+    { "user": "Me", "type": "Learning", "time": "01:00", "date": "2026-02-27" },
+    { "user": "Me", "type": "Workout", "time": "00:30", "date": "2026-02-26" },
+    { "user": "Wife", "type": "Workout", "time": "00:30", "date": "2026-02-26" },
+    { "user": "Wife", "type": "Learning", "time": "01:00", "date": "2026-02-26" },
+    { "user": "Me", "type": "Coding", "time": "01:00", "date": "2026-02-26" },
     { "user": "Me", "type": "Workout", "time": "00:30", "date": "2026-02-25" },
     { "user": "Wife", "type": "Workout", "time": "00:30", "date": "2026-02-25" },
     { "user": "Wife", "type": "Learning", "time": "01:00", "date": "2026-02-25" },

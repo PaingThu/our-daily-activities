@@ -440,6 +440,7 @@
         function getActivityConfig(typeStr) {
             const type = (typeStr || 'Workout').toLowerCase();
             if (type.includes('learn')) return { icon: 'book-open', colorClass: 'bg-amber-100 text-amber-600' };
+            if (type.includes('read')) return { icon: 'book', colorClass: 'bg-cyan-100 text-cyan-600' };
             if (type.includes('cardio')) return { icon: 'heart', colorClass: 'bg-rose-100 text-rose-600' };
             if (type.includes('strength')) return { icon: 'dumbbell', colorClass: 'bg-slate-100 text-slate-600' };
             if (type.includes('walk')) return { icon: 'footprints', colorClass: 'bg-emerald-100 text-emerald-600' };

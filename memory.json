@@ -1,4 +1,8 @@
 [
+    { "user": "Me", "type": "Reading", "time": "01:00", "date": "2026-02-28" },
+    { "user": "Wife", "type": "Learning", "time": "01:00", "date": "2026-02-28" },
+    { "user": "Me", "type": "Meditation", "time": "00:05", "date": "2026-02-27" },
+    { "user": "Me", "type": "Workout", "time": "00:30", "date": "2026-02-27" },
     { "user": "Wife", "type": "Learning", "time": "01:00", "date": "2026-02-27" },
     { "user": "Me", "type": "Learning", "time": "01:00", "date": "2026-02-27" },
     { "user": "Me", "type": "Workout", "time": "00:30", "date": "2026-02-26" },

@@ -212,7 +212,12 @@
             try {
                 const response = await fetch(WEB_APP_URL);
                 const data = await response.json();
-                renderData(data);
+                const memory = data.sort((a, b) => {
+                    const dateA = a[2];
+                    const dateB = b[2];
+                    return dateA.localeCompare(dateB);
+                });
+                renderData(memory);
             } catch (error) {
                 console.error('Fetch error:', error);
                 displayArea.innerHTML = `<p class="text-red-500 text-center py-10 text-sm">Error connecting to database.</p>`;

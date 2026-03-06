@@ -1,4 +1,6 @@
 [
+    { "user": "Me", "type": "Coding", "time": "01:00", "date": "2026-03-05" },
+    { "user": "Wife", "type": "Learning", "time": "01:00", "date": "2026-03-05" },
     { "user": "Me", "type": "Workout", "time": "00:30", "date": "2026-03-04" },
     { "user": "Wife", "type": "Workout", "time": "00:10", "date": "2026-03-04" },
     { "user": "Me", "type": "Coding", "time": "01:00", "date": "2026-03-04" },

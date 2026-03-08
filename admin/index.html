@@ -150,10 +150,10 @@
         }
 
         // How to use it:
-        const token = getCookie("userToken");
+        const token = getCookie("userToken");   
 
         if (!token) {
-            window.location.href = "/admin/login/";
+            window.location.href = getBasePath() + "admin/login/";
         }
 
         const form = document.getElementById('userForm');
@@ -341,7 +341,7 @@
 
         function logout() {
             document.cookie = "userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            window.location.href = "/admin/login/";
+            window.location.href = getBasePath() + "admin/login/";
         }
 
         // Initialize App

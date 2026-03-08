@@ -94,7 +94,7 @@
         const token = getCookie("userToken");
 
         if (token) {
-            window.location.href = "/admin/";
+            window.location.href = getBasePath() + "/admin/";
         }
 
         // Elements

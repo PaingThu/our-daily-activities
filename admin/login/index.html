@@ -63,6 +63,15 @@
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgsuA7_mjRWvpcuagCPKYlE91vxq0V2M4XGXT9udM3yLZ2mvr8TBL0eFYv7VvoVnpK/exec';
 
+        const getBasePath = () => {
+            const path = window.location.pathname;
+            // If on GitHub Pages, the first part of the path is the repo name
+            if (window.location.hostname.includes("github.io")) {
+                return "/" + path.split('/')[1] + "/";
+            }
+            return "/"; // Localhost root
+        };
+        console.log("Base path:", getBasePath());
         function getCookie(name) {
             // 1. Get all cookies and split them by the semicolon
             let cookieArr = document.cookie.split(";");
@@ -143,7 +152,7 @@
                     });
 
                     // window.location.reload();
-                    window.location.href = "/admin/";
+                    window.location.href = getBasePath() + "/admin/";
                 } else {
                     status.textContent = 'Invalid credentials. Please check and try again.';
                     status.className = 'mt-4 p-3 rounded-lg text-sm text-center block bg-red-100 text-red-700';

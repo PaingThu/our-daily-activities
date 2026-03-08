@@ -71,7 +71,6 @@
             }
             return "/"; // Localhost root
         };
-        console.log("Base path:", getBasePath());
         function getCookie(name) {
             // 1. Get all cookies and split them by the semicolon
             let cookieArr = document.cookie.split(";");
@@ -94,7 +93,7 @@
         const token = getCookie("userToken");
 
         if (token) {
-            window.location.href = getBasePath() + "/admin/";
+            window.location.href = getBasePath() + "admin/";
         }
 
         // Elements
@@ -151,8 +150,7 @@
                         body: JSON.stringify(payload)
                     });
 
-                    // window.location.reload();
-                    window.location.href = getBasePath() + "/admin/";
+                    window.location.href = getBasePath() + "admin/";
                 } else {
                     status.textContent = 'Invalid credentials. Please check and try again.';
                     status.className = 'mt-4 p-3 rounded-lg text-sm text-center block bg-red-100 text-red-700';

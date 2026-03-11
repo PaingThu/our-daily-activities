@@ -252,11 +252,11 @@
 
                 memory = validRows.map(entry => {
                     return {
-                        "user": entry[0],
-                        "type": entry[1],
-                        "date": entry[2],
-                        "time": entry[3],
-                        "distance": entry[4]
+                        "user": entry[1],
+                        "type": entry[2],
+                        "date": entry[3],
+                        "time": entry[4],
+                        "distance": entry[5]
                     };
                 }).sort((a, b) => {
                     return a.date.localeCompare(b.date);

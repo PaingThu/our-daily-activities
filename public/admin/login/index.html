@@ -61,41 +61,10 @@
         </div>
     </div>
 
-    <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgsuA7_mjRWvpcuagCPKYlE91vxq0V2M4XGXT9udM3yLZ2mvr8TBL0eFYv7VvoVnpK/exec';
-
-        const getBasePath = () => {
-            const path = window.location.pathname;
-            // If on GitHub Pages, the first part of the path is the repo name
-            if (window.location.hostname.includes("github.io")) {
-                return "/" + path.split('/')[1] + "/";
-            }
-            return "/"; // Localhost root
-        };
-        function getCookie(name) {
-            // 1. Get all cookies and split them by the semicolon
-            let cookieArr = document.cookie.split(";");
-
-            // 2. Loop through each cookie pair
-            for (let i = 0; i < cookieArr.length; i++) {
-                let cookiePair = cookieArr[i].split("=");
-
-                // 3. Remove whitespace and check if the name matches
-                if (name === cookiePair[0].trim()) {
-                    // 4. Return the value (the token)
-                    return decodeURIComponent(cookiePair[1]);
-                }
-            }
-            // Return null if the cookie was not found
-            return null;
-        }
-
-        // How to use it:
-        const token = getCookie("userToken");
-
-        if (token) {
-            window.location.href = getBasePath() + "admin/";
-        }
+   <script type="module" src="../../assets/js/config.js"></script>
+   <script type="module">
+        import { WEB_APP_URL, getBasePath, tokenCheck } from "../../assets/js/config.js";
+        tokenCheck();
 
         // Elements
         const loginScreen = document.getElementById('loginScreen');
@@ -128,7 +97,6 @@
                 action: 'login',
                 adminId: document.getElementById('adminId').value,
                 password: document.getElementById('password').value,
-                status: '0001',
                 userIp: ipaddress
             };
 
@@ -171,15 +139,6 @@
                 displayArea.innerHTML = '';
             }
         });
-
-        function generateToken(length = 20) {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        }
 
     </script>
 </body>

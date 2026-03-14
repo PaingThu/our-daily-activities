@@ -1,21 +1,4 @@
-import { WEB_APP_URL, getBasePath, getCookie } from "./config.js";
-
-console.log('Admin JS Loaded');
-
-// How to use it:
-const token = getCookie("userToken");   
-
-if (!token) {
-    window.location.href = getBasePath() + "admin/login/";
-}else{
-    // let payload = {
-    //     action: 'getLoginInfo',
-    //     adminId: document.getElementById('adminId').value,
-    //     password: document.getElementById('password').value,
-    //     status: '0001',
-    //     userIp: ipaddress
-    // };
-}
+import { WEB_APP_URL, getBasePath, token, COMMON } from "./config.js";
 
 const form = document.getElementById('userForm');
 const submitBtn = document.getElementById('submitBtn');
@@ -62,7 +45,6 @@ async function loadData() {
 loadDataBtn.addEventListener("click", loadData);
 
 const init = () => {
-    console.log("DOM is ready. Starting security checks...");
     loadData();
 };
 if (document.readyState === "loading") {

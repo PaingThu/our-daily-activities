@@ -1,4 +1,4 @@
-import { WEB_APP_URL, getBasePath, token, COMMON } from "./config.js";
+import { WEB_APP_URL, getBasePath } from "./config.js";
 
 const form = document.getElementById('userForm');
 const submitBtn = document.getElementById('submitBtn');

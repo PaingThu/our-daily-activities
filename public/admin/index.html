@@ -34,8 +34,9 @@
     <div class="max-w-4xl mx-auto px-4 py-12">
         <header class="flex justify-between items-center mb-12">
             <div>
-                <h1 class="text-4xl font-bold tracking-tight text-slate-800">Activity Logger</h1>
-                <p class="mt-1 text-slate-500">Log your daily habits as plain text.</p>
+                <h1 class="text-4xl font-bold tracking-tight text-slate-800">Our Daily Activities</h1>
+                <p class="text-slate-400 text-sm">Welcome, Admin: <span id="adminName"></span>!</p>
+                <p class="mt-1 text-slate-500">Track your daily activities and habits.</p>
             </div>
             <button id="logoutBtn" class="text-sm font-medium text-slate-400 hover:text-red-500 transition">Logout</button>
         </header>
@@ -119,11 +120,11 @@
         </div>
     </div>
 
-    <script type="module" src="../assets/js/admin.js?v=1.0.0"></script>
+    <script type="module" src="../assets/js/admin.js?v=1.0.1"></script>
     <script type="module">
-        import { tokenCheck } from "../assets/js/config.js";
+        import { tokenCheck } from "../assets/js/config.js?v=1.0.1";
         
-        tokenCheck('admin');
+        tokenCheck('admin');   
     </script>
 </body>
 </html>

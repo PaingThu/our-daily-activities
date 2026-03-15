@@ -1,8 +1,9 @@
 export const COMMON = {
     ipaddress: await fetch('https://api.ipify.org?format=json')
-                .then(res => res.json())
-                .then(data => data.ip)
-                .catch(() => 'Unknown')
+        .then(res => res.json())
+        .then(data => data.ip)
+        .catch(() => 'Unknown'),
+    adminName: null
 };
 
 export const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgsuA7_mjRWvpcuagCPKYlE91vxq0V2M4XGXT9udM3yLZ2mvr8TBL0eFYv7VvoVnpK/exec';
@@ -39,14 +40,26 @@ export const deleteCookie = (name) => {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 }
 
+export function loadingSpinner(label) {
+    return `
+            <div class="flex flex-col items-center justify-center py-12 space-y-3">
+                <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-500 rounded-full animate-spin"></div>
+                <span class="text-xs font-medium text-slate-400">${label}...</span>
+            </div>`
+}
+
 export async function tokenCheck(pageType = 'login') {
+
     if (token) {
-        let payload = {
-            action: 'getLoginInfo',
-            token: token,
-            userIp: COMMON.ipaddress
-        };
+        if(pageType === 'login'){
+            displayArea.innerHTML = loadingSpinner('');
+        }        
         try {
+            let payload = {
+                action: 'getLoginInfo',
+                token: token,
+                userIp: COMMON.ipaddress
+            };
             const response = await fetch(WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify(payload)
@@ -62,6 +75,7 @@ export async function tokenCheck(pageType = 'login') {
                 if (pageType === 'login') {
                     window.location.href = getBasePath() + "admin/";
                 }
+                adminName.textContent = result.name;
             } else {
                 deleteCookie("userToken");
                 throw new Error("Authentication failed: " + result.message);

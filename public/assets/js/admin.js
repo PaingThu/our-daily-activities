@@ -11,6 +11,7 @@ const distanceContainer = document.getElementById('distanceContainer');
 const distanceInput = document.getElementById('distance');
 const loadDataBtn = document.getElementById('loadDataBtn');
 const logoutBtn = document.getElementById('logoutBtn');
+const admin = document.getElementById('adminName');
 
 // Set default date and time to now
 const now = new Date();
@@ -86,7 +87,8 @@ form.addEventListener('submit', async function(e) {
         type: String(document.getElementById('type').value),
         date: "'" + String(document.getElementById('date').value), // Forced Plain Text
         time: "'" + String(document.getElementById('time').value), // Forced Plain Text
-        distance: distanceInput.value ? String(distanceInput.value) : '-'
+        distance: distanceInput.value ? String(distanceInput.value) : '-',
+        admin: admin.textContent
     };
 
     try {

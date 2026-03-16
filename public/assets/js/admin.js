@@ -12,11 +12,16 @@ const distanceInput = document.getElementById('distance');
 const loadDataBtn = document.getElementById('loadDataBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const admin = document.getElementById('adminName');
+const timeInputContainer = document.getElementById('timeInputContainer');
 
 // Set default date and time to now
 const now = new Date();
 document.getElementById('date').valueAsDate = now;
-document.getElementById('time').value = now.toTimeString().substring(0, 5);
+
+const durationOptions = [
+    '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', 
+    '01:45', '02:00', '02:15', '02:30', '02:45', '03:00'
+];
 
 // Load Data
 async function loadData() {
@@ -61,10 +66,20 @@ function toggleDistanceVisibility() {
     if (['Walking', 'Running'].includes(selectedType)) {
         distanceContainer.classList.remove('hidden');
         distanceInput.required = true;
+        timeInputContainer.innerHTML = `
+            <input type="time" id="time" step="1" required value="00:00:00" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition">
+        `;
     } else {
         distanceContainer.classList.add('hidden');
         distanceInput.required = false;
         distanceInput.value = '';
+
+        let optionsHtml = durationOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        timeInputContainer.innerHTML = `
+            <select id="time" required class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-white">
+                ${optionsHtml}
+            </select>
+        `;
     }
 }
 

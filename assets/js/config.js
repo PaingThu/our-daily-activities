@@ -76,8 +76,9 @@ export async function tokenCheck(pageType = 'login') {
                     window.location.href = getBasePath() + "admin/";
                 }
                 adminName.textContent = result.name;
-                
-                birthdayWish(result.name);
+                if(result.birthdayInfo.today){
+                    birthdayWish(result.birthdayInfo);
+                }
             } else {
                 deleteCookie("userToken");
                 throw new Error("Authentication failed: " + result.message);
@@ -85,9 +86,9 @@ export async function tokenCheck(pageType = 'login') {
             
         } catch (err) {
             console.error(err);
-            // if(pageType === 'admin'){
-            //     window.location.href = getBasePath() + "admin/login/";
-            // } 
+            if(pageType === 'admin'){
+                window.location.href = getBasePath() + "admin/login/";
+            } 
         }
     }else{
         if(pageType === 'admin'){
@@ -96,17 +97,8 @@ export async function tokenCheck(pageType = 'login') {
     }
 }
 
-function birthdayWish(name) {
-    const today = new Date().toLocaleDateString(('ja-JP'), { month: '2-digit', day: '2-digit' }).split('/').join('-');
-    if(name === 'MOE THET HNIN' && today === '03-19'){
-        const birthdayMessage = `🎉 Happy Birthday, MAA MAA! 🎂`;
-        happyBirthday.textContent = birthdayMessage;
-        happyBirthday.classList.remove('hidden');
-    }
-     if(name === 'MAW PAING THU' && today === '03-19'){
-        const birthdayMessage = `🎉 Today is MAA MAA's Birthday! 🎂`;
-        happyBirthday.textContent = birthdayMessage;
-        happyBirthday.classList.remove('hidden');
-    }
+function birthdayWish(birthdayInfo){ 
+    happyBirthday.textContent = birthdayInfo.message;
+    happyBirthday.classList.remove('hidden');
 }
 

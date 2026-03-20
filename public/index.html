@@ -74,8 +74,8 @@
         <div class="max-w-4xl mx-auto px-4">
             <div class="bg-slate-200 p-1 rounded-xl flex gap-1 max-w-sm mx-auto">
                 <button onclick="changeUser('Family')" id="btn-Family" class="user-tab flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500">Family</button>
-                <button onclick="changeUser('Me')" id="btn-Me" class="user-tab flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500">Me</button>
-                <button onclick="changeUser('Wife')" id="btn-Wife" class="user-tab flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500">Wife</button>
+                <button onclick="changeUser('Me')" id="btn-Me" class="user-tab flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500">Paa Paa</button>
+                <button onclick="changeUser('Wife')" id="btn-Wife" class="user-tab flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500">Maa Maa</button>
             </div>
         </div>
     </div>
@@ -141,9 +141,9 @@
             en: {
                 appTitle1: "Couple", appTitle2: "Thrive",
                 subtitle: "We Wakeup At 5A.M Every Day And Go To Bed Early!",
-                Family: "Family", Me: "Me", Wife: "Wife",
+                Family: "Family", Me: "Paa Paa", Wife: "Maa Maa",
                 totalSessions: "Total Sessions", effortTime: "Effort Time",
-                FamilyView: "Family", MeView: "Me", WifeView: "Wife",
+                FamilyView: "Family", MeView: "Paa Paa", WifeView: "Maa Maa",
                 motto: "We Wakeup At 5A.M Every Day And Go To Bed Early!",
                 timeline: "Timeline", sessions: "sessions",
                 noActivity: "No activity found for this filter",
@@ -157,9 +157,9 @@
             my: {
                 appTitle1: "ဇနီးမောင်နှံ", appTitle2: "တိုးတက်ရေး",
                 subtitle: "မနက် ၅ နာရီတိုင်းထပြီး စောစောအိပ်ကြသည်!",
-                Family: "မိသားစု", Me: "ကျွန်ုပ်", Wife: "ဇနီး",
+                Family: "မိသားစု", Me: "ဖေကြီး", Wife: "မေကြီး",
                 totalSessions: "စုစုပေါင်းအကြိမ်", effortTime: "စုစုပေါင်းကြာချိန်",
-                FamilyView: "မိသားစု", MeView: "ကျွန်တော်", WifeView: "ဇနီး",
+                FamilyView: "မိသားစု", MeView: "ဖေကြီး", WifeView: "မေကြီး",
                 motto: "မနက် ၅ နာရီတိုင်းထပြီး စောစောအိပ်ကြသည်!",
                 timeline: "အချိန်မှတ်တမ်း", sessions: "ကြိမ်",
                 noActivity: "ဤစစ်ထုတ်မှုအတွက် မှတ်တမ်းမရှိပါ",
@@ -173,9 +173,9 @@
             ja: {
                 appTitle1: "カップル", appTitle2: "スライヴ",
                 subtitle: "毎朝5時に起きて、早寝早起きを徹底！",
-                Family: "家族", Me: "自分", Wife: "妻",
+                Family: "家族", Me: "パパ", Wife: "ママ",
                 totalSessions: "合計セッション", effortTime: "努力時間",
-                FamilyView: "家族ビュー", MeView: "自分ビュー", WifeView: "妻ビュー",
+                FamilyView: "家族ビュー", MeView: "パパビュー", WifeView: "ママビュー",
                 motto: "毎朝5時に起きて、早寝早起きを徹底！",
                 timeline: "タイムライン", sessions: "セッション",
                 noActivity: "アクティビティはありません",
@@ -236,12 +236,11 @@
             displayArea.innerHTML = `
                 <div class="flex flex-col items-center justify-center py-12 space-y-3">
                     <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-500 rounded-full animate-spin"></div>
-                    <span class="text-xs font-medium text-slate-400">Syncing with Sheets...</span>
+                    <span class="text-xs font-medium text-slate-400">Data Loading...</span>
                 </div>`;
             try {
                 const response = await fetch(WEB_APP_URL);
                 const data = await response.json();
-                console.log('Fetched data from Google Sheets:', data);
 
                 const validRows = data.filter(row => row && row.length >= 5 && row[1] !== 'User');
 
@@ -262,7 +261,6 @@
                     return a.date.localeCompare(b.date);
                 });
 
-                console.log('Formatted data ready for rendering:', memory);
                 renderMemories();
 
             } catch (error) {
@@ -323,9 +321,17 @@
             document.getElementById('active-user-label').innerText = t(`${currentUser}View`);
 
             container.innerHTML = '';
-            const filteredMemory = memory.filter(item => 
-                currentUser === 'Family' || item.user === currentUser
-            );
+            const filteredMemory = memory.filter(item => {
+                if(currentUser === 'Family'){
+                    return item
+                }
+                if(currentUser === 'Me'){
+                    return item.user === 'Me' || item.user === 'Paa Paa';
+                } 
+                if(currentUser === 'Wife'){
+                    return item.user === 'Wife' || item.user === 'Maa Maa';
+                }
+            });
 
             if (filteredMemory.length === 0) {
                 emptyState.classList.remove('hidden');
@@ -434,7 +440,7 @@
                                 <div class="flex flex-col"><div class="flex items-center">
                                     <span class="text-sm font-extrabold text-slate-700">${getTranslatedType(item.type)}</span>
                                     ${item.distance != '-' ? `<span class="inline-flex items-center text-[9px] font-black px-2 py-0.5 rounded bg-indigo-50 text-indigo-500 border border-indigo-100 ml-2 uppercase tracking-tighter">${item.distance} km</span>` : ''}
-                                    ${currentUser === 'Family' ? `<span class="ml-2 text-[9px] font-black ${item.user === 'Me' ? 'text-blue-500 bg-blue-50' : 'text-rose-500 bg-rose-50'} px-2 py-0.5 rounded-full uppercase tracking-widest border border-current opacity-70">${t(item.user)}</span>` : ''}
+                                    ${currentUser === 'Family' ? `<span class="ml-2 text-[9px] font-black ${item.user === 'Me' || item.user === 'Paa Paa' ? 'text-blue-500 bg-blue-50' : 'text-rose-500 bg-rose-50'} px-2 py-0.5 rounded-full uppercase tracking-widest border border-current opacity-70">${t(item.user)}</span>` : ''}
                                 </div></div>
                             </div>
                             <div class="text-right">

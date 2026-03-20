@@ -75,9 +75,8 @@ export async function tokenCheck(pageType = 'login') {
                 if (pageType === 'login') {
                     window.location.href = getBasePath() + "admin/";
                 }
-                adminName.textContent = result.name;
-                if(result.birthdayInfo.today){
-                    birthdayWish(result.birthdayInfo);
+                if(pageType === 'admin'){
+                    return result;
                 }
             } else {
                 deleteCookie("userToken");
@@ -95,10 +94,5 @@ export async function tokenCheck(pageType = 'login') {
             window.location.href = getBasePath() + "admin/login/";
         }
     }
-}
-
-function birthdayWish(birthdayInfo){ 
-    happyBirthday.textContent = birthdayInfo.message;
-    happyBirthday.classList.remove('hidden');
 }
 

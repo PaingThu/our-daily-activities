@@ -14,6 +14,8 @@ const logoutBtn = document.getElementById('logoutBtn');
 const admin = document.getElementById('adminName');
 const timeInputContainer = document.getElementById('timeInputContainer');
 const happyBirthday = document.getElementById('happyBirthday');
+const userPageLink = document.getElementById('userPage');
+userPageLink.onclick = () => { window.open(getBasePath(), '_blank'); };
 
 // Set default date and time to now
 const now = new Date().toLocaleDateString(('ja-JP'), { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').join('-');

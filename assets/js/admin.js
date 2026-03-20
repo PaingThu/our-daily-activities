@@ -8,7 +8,7 @@ const btnText = document.getElementById('btnText');
 const btnLoader = document.getElementById('btnLoader');
 const statusMsg = document.getElementById('statusMessage');
 const displayArea = document.getElementById('displayArea');
-const user =document.getElementById('user').value
+const user =document.getElementById('user');
 const typeSelect = document.getElementById('type');
 const distanceContainer = document.getElementById('distanceContainer');
 const distanceInput = document.getElementById('distance');
@@ -59,7 +59,10 @@ loadDataBtn.addEventListener("click", loadData);
 const init = async () => {
     const result = await tokenCheck('admin'); 
     if(result && result.status === 'success'){
+        console.log("Token Check Result:", result);
         admin.textContent = result.name;
+        console.log("User Name:", result.user);
+        user.value = result.user;
         if(result.birthdayInfo.today){
             birthdayWish(result.birthdayInfo);
         }
@@ -176,7 +179,7 @@ function renderData(rows) {
         const distanceValue = row[5];
         
         const isCardio = ['Walking', 'Running'].includes(activityType);
-        const userColorClass = userName === 'Wife' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700';
+        const userColorClass = userName === 'Wife' || userName === 'Maa Maa' ? 'bg-pink-100 text-pink-700' : 'bg-blue-100 text-blue-700';
 
         return `
         <div class="p-4 bg-white border border-slate-100 rounded-xl hover:border-slate-300 hover:shadow-md transition-all group">

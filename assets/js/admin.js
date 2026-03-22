@@ -1,4 +1,4 @@
-import { WEB_APP_URL, getBasePath, tokenCheck } from "./config.js";
+import { WEB_APP_URL, getBasePath, loadingSpinner, tokenCheck } from "./config.js";
 
 const authenticating = document.getElementById('authenticating');
 const mainContainer = document.getElementById('mainContainer');
@@ -33,11 +33,7 @@ const durationOptions = [
 async function loadData() {
     if (WEB_APP_URL.includes('YOUR_WEB_APP_URL')) return;
 
-    displayArea.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-12 space-y-3">
-            <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-500 rounded-full animate-spin"></div>
-            <span class="text-xs font-medium text-slate-400">Loading Data...</span>
-        </div>`;
+    displayArea.innerHTML = loadingSpinner('Data Loading .....');
 
     try {
         const response = await fetch(WEB_APP_URL);

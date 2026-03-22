@@ -1,4 +1,4 @@
-import { WEB_APP_URL, getBasePath } from "./config.js";
+import { WEB_APP_URL, getBasePath, loadingSpinner } from "./config.js";
 
 // Elements
 const loginForm = document.getElementById('loginForm');
@@ -13,11 +13,7 @@ loginForm.addEventListener('submit', async function(e) {
 
     btn.disabled = true;
 
-    displayArea.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-12 space-y-3">
-            <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-500 rounded-full animate-spin"></div>
-            <span class="text-xs font-medium text-slate-400">Authenticating...</span>
-        </div>`;
+    displayArea.innerHTML = loadingSpinner('Authenticating...');
     status.textContent = '';
     status.classList.add('hidden');
 

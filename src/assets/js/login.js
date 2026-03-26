@@ -1,4 +1,4 @@
-import { WEB_APP_URL, getBasePath, loadingSpinner } from "./config.js";
+import { COMMON, WEB_APP_URL, getBasePath, loadingSpinner } from "./config.js";
 
 // Elements
 const loginForm = document.getElementById('loginForm');
@@ -17,20 +17,14 @@ loginForm.addEventListener('submit', async function(e) {
     status.textContent = '';
     status.classList.add('hidden');
 
-    const ipaddress = await fetch('https://api.ipify.org?format=json')
-        .then(res => res.json())
-        .then(data => data.ip)
-        .catch(() => 'Unknown');
-
     let payload = {
         action: 'login',
         adminId: document.getElementById('adminId').value,
         password: document.getElementById('password').value,
-        userIp: ipaddress
+        userIp: COMMON.ipaddress
     };
 
     try {
-
         const response = await fetch(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify(payload)
@@ -41,7 +35,6 @@ loginForm.addEventListener('submit', async function(e) {
         }
 
         const result = await response.json();
-        console.log("Login response:", result);
 
         if (result.status === 'success') {
             // Sets a cookie that expires in 7 days

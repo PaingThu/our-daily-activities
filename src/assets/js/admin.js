@@ -1,4 +1,4 @@
-import { WEB_APP_URL, getBasePath, loadingSpinner, tokenCheck } from "./config.js";
+import { WEB_APP_URL, getBasePath, loadingSpinner, tokenCheck, COMMON } from "./config.js";
 
 const authenticating = document.getElementById('authenticating');
 const mainContainer = document.getElementById('mainContainer');
@@ -110,12 +110,14 @@ form.addEventListener('submit', async function(e) {
     setLoading(true);
 
     const payload = {
+        action: 'addActivity',
         user: String(user.value),
         type: String(document.getElementById('type').value),
         date: "'" + String(document.getElementById('date').value), // Forced Plain Text
         time: "'" + String(document.getElementById('time').value), // Forced Plain Text
         distance: distanceInput.value ? String(distanceInput.value) : '-',
-        admin: admin.textContent
+        admin: admin.textContent,
+        userIp: COMMON.ipaddress
     };
 
     try {

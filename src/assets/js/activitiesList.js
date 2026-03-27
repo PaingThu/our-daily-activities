@@ -134,15 +134,30 @@ async function loadData() {
     }
 }
 
-function changeLang(lang) {
+const changeLang = (lang) => {
     currentLang = lang;
     renderMemories();
-}
+};
+const btnLangEn = document.getElementById('lang-en');
+const btnLangMy = document.getElementById('lang-my');
+const btnLangJa = document.getElementById('lang-ja');
 
-function changeUser(user) {
+btnLangEn.addEventListener('click', () => changeLang('en'));
+btnLangMy.addEventListener('click', () => changeLang('my'));
+btnLangJa.addEventListener('click', () => changeLang('ja'));
+
+const changeUser = (user) => {
     currentUser = user;
     renderMemories();
-}
+};
+
+const btnFamily = document.getElementById('btn-Family');
+const btnMe = document.getElementById('btn-Me');
+const btnWife = document.getElementById('btn-Wife');
+
+btnFamily.addEventListener('click', () => changeUser('Family'));
+btnMe.addEventListener('click', () => changeUser('Me'));
+btnWife.addEventListener('click', () => changeUser('Wife'));
 
 function toggleMonth(monthId) {
     const content = document.getElementById(`content-${monthId}`);

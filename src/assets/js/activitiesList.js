@@ -52,7 +52,7 @@ const translations = {
 };
 
 let currentLang = 'en';
-let currentUser = 'Family';
+let currentUser = 'Me';
 
 /**
  * DATA STORAGE
@@ -145,11 +145,11 @@ const changeUser = (user) => {
     renderMemories();
 };
 
-const btnFamily = document.getElementById('btn-Family');
+// const btnFamily = document.getElementById('btn-Family');
 const btnMe = document.getElementById('btn-Me');
 const btnWife = document.getElementById('btn-Wife');
 
-btnFamily.addEventListener('click', () => changeUser('Family'));
+// btnFamily.addEventListener('click', () => changeUser('Family'));
 btnMe.addEventListener('click', () => changeUser('Me'));
 btnWife.addEventListener('click', () => changeUser('Wife'));
 
@@ -173,7 +173,7 @@ function updateStaticTexts() {
     document.getElementById('txt-appTitle1').innerText = t('appTitle1');
     document.getElementById('txt-appTitle2').innerText = t('appTitle2');
     document.getElementById('txt-subtitle').innerText = t('subtitle');
-    document.getElementById('btn-Family').innerText = t('Family');
+    // document.getElementById('btn-Family').innerText = t('Family');
     document.getElementById('btn-Me').innerText = t('Me');
     document.getElementById('btn-Wife').innerText = t('Wife');
     document.getElementById('txt-totalSessions').innerText = t('totalSessions');

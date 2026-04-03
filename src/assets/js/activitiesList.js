@@ -4,7 +4,7 @@ const translations = {
     en: {
         appTitle1: "Our", appTitle2: "Daily Activities",
         subtitle: "We Wakeup At 5A.M Every Day And Go To Bed Early!",
-        Family: "Family", Me: "Paa Paa", Wife: "Maa Maa",
+        Family: "Family", Me: "Paa Paa", Wife: "Maa Maa", Son: "Son",
         totalSessions: "Total Sessions", effortTime: "Effort Time",
         FamilyView: "Family", MeView: "Paa Paa", WifeView: "Maa Maa",
         motto: "We Wakeup At 5A.M Every Day And Go To Bed Early!",
@@ -14,15 +14,15 @@ const translations = {
         types: {
             coding: "Coding", meditation: "Meditation", walking: "Walking",
             running: "Running", learning: "Learning", strength: "Strength",
-            cardio: "Cardio", workout: "Workout", reading: "Reading"
+            cardio: "Cardio", workout: "Workout", reading: "Reading", stretching: "Stretching"
         }
     },
     my: {
         appTitle1: "ဇနီးမောင်နှံ", appTitle2: "တိုးတက်ရေး",
         subtitle: "မနက် ၅ နာရီတိုင်းထပြီး စောစောအိပ်ကြသည်!",
-        Family: "မိသားစု", Me: "ဖေကြီး", Wife: "မေကြီး",
+        Family: "မိသားစု", Me: "ဖေကြီး", Wife: "မေကြီး", Son: "သားသား",
         totalSessions: "စုစုပေါင်းအကြိမ်", effortTime: "စုစုပေါင်းကြာချိန်",
-        FamilyView: "မိသားစု", MeView: "ဖေကြီး", WifeView: "မေကြီး",
+        FamilyView: "မိသားစု", MeView: "ဖေကြီး", WifeView: "မေကြီး", SonView: "သားသား",
         motto: "မနက် ၅ နာရီတိုင်းထပြီး စောစောအိပ်ကြသည်!",
         timeline: "အချိန်မှတ်တမ်း", sessions: "ကြိမ်",
         noActivity: "ဤစစ်ထုတ်မှုအတွက် မှတ်တမ်းမရှိပါ",
@@ -30,15 +30,15 @@ const translations = {
         types: {
             coding: "ကုဒ်ရေးခြင်း", meditation: "တရားထိုင်ခြင်း", walking: "လမ်းလျှောက်ခြင်း",
             running: "ပြေးခြင်း", learning: "လေ့လာခြင်း", strength: "အလေးမခြင်း",
-            cardio: "နှလုံးကျန်းမာရေးလေ့ကျင့်ခန်း", workout: "လေ့ကျင့်ခန်း", reading: "စာဖတ်ခြင်း"
+            cardio: "နှလုံးကျန်းမာရေးလေ့ကျင့်ခန်း", workout: "လေ့ကျင့်ခန်း", reading: "စာဖတ်ခြင်း", stretching: "ကိုယ်လက်ဆန့်ခြင်း"
         }
     },
     ja: {
         appTitle1: "カップル", appTitle2: "スライヴ",
         subtitle: "毎朝5時に起きて、早寝早起きを徹底！",
-        Family: "家族", Me: "パパ", Wife: "ママ",
+        Family: "家族", Me: "パパ", Wife: "ママ", Son: "息子",
         totalSessions: "合計セッション", effortTime: "努力時間",
-        FamilyView: "家族ビュー", MeView: "パパビュー", WifeView: "ママビュー",
+        FamilyView: "家族ビュー", MeView: "パパ", WifeView: "ママ", SonView: "息子",
         motto: "毎朝5時に起きて、早寝早起きを徹底！",
         timeline: "タイムライン", sessions: "セッション",
         noActivity: "アクティビティはありません",
@@ -46,7 +46,7 @@ const translations = {
         types: {
             coding: "コーディング", meditation: "瞑想", walking: "ウォーキング",
             running: "ランニング", learning: "学習", strength: "筋トレ",
-            cardio: "有酸素運動", workout: "ワークアウト", reading: "読書"
+            cardio: "有酸素運動", workout: "ワークアウト", reading: "読書", stretching: "ストレッチ"
         }
     }
 };
@@ -82,6 +82,7 @@ let memory = [];
 
 const container = document.getElementById('memory-container');
 const emptyState = document.getElementById('empty-state');
+const displayArea = document.getElementById('displayArea');
 
 // Initial Load
 if (document.readyState === "loading") {
@@ -97,6 +98,7 @@ if (document.readyState === "loading") {
 async function loadData() {
     
     displayArea.innerHTML = loadingSpinner('Data Loading.....');
+    container.innerHTML = '';
     try {
         const response = await fetch(WEB_APP_URL);
         const data = await response.json();
@@ -120,7 +122,8 @@ async function loadData() {
             return a.date.localeCompare(b.date);
         });
 
-        renderMemories();
+        renderMemories(memory);
+        displayArea.innerHTML = '';
 
     } catch (error) {
         console.error('Fetch error:', error);
@@ -130,7 +133,7 @@ async function loadData() {
 
 const changeLang = (lang) => {
     currentLang = lang;
-    renderMemories();
+    renderMemories(memory);
 };
 const btnLangEn = document.getElementById('lang-en');
 const btnLangMy = document.getElementById('lang-my');
@@ -142,16 +145,19 @@ btnLangJa.addEventListener('click', () => changeLang('ja'));
 
 const changeUser = (user) => {
     currentUser = user;
-    renderMemories();
+    // renderMemories(memory);
+    loadData();
 };
 
 // const btnFamily = document.getElementById('btn-Family');
 const btnMe = document.getElementById('btn-Me');
 const btnWife = document.getElementById('btn-Wife');
+const btnSon = document.getElementById('btn-Son');
 
 // btnFamily.addEventListener('click', () => changeUser('Family'));
 btnMe.addEventListener('click', () => changeUser('Me'));
 btnWife.addEventListener('click', () => changeUser('Wife'));
+btnSon.addEventListener('click', () => changeUser('Son'));
 
 function toggleMonth(monthId) {
     const content = document.getElementById(`content-${monthId}`);
@@ -172,10 +178,11 @@ function getTranslatedType(type) {
 function updateStaticTexts() {
     document.getElementById('txt-appTitle1').innerText = t('appTitle1');
     document.getElementById('txt-appTitle2').innerText = t('appTitle2');
-    document.getElementById('txt-subtitle').innerText = t('subtitle');
+    // document.getElementById('txt-subtitle').innerText = t('subtitle');
     // document.getElementById('btn-Family').innerText = t('Family');
     document.getElementById('btn-Me').innerText = t('Me');
     document.getElementById('btn-Wife').innerText = t('Wife');
+    document.getElementById('btn-Son').innerText = t('Son');
     document.getElementById('txt-totalSessions').innerText = t('totalSessions');
     document.getElementById('txt-effortTime').innerText = t('effortTime');
     document.getElementById('txt-motto').innerText = t('motto');
@@ -186,16 +193,16 @@ function updateStaticTexts() {
     document.getElementById(`lang-${currentLang}`).classList.add('lang-active');
 }
 
-function renderMemories() {
+function renderMemories(activitiesMemory) {
     updateStaticTexts();
 
     document.querySelectorAll('.user-tab').forEach(btn => btn.classList.remove('user-tab-active'));
     const activeTab = document.getElementById(`btn-${currentUser}`);
     if (activeTab) activeTab.classList.add('user-tab-active');
-    document.getElementById('active-user-label').innerText = t(`${currentUser}View`);
+    document.getElementById('active-user-label').innerText = t(`${currentUser}`);
 
     container.innerHTML = '';
-    const filteredMemory = memory.filter(item => {
+    const filteredMemory = activitiesMemory.filter(item => {
         if(currentUser === 'Family'){
             return item
         }
@@ -204,6 +211,9 @@ function renderMemories() {
         } 
         if(currentUser === 'Wife'){
             return item.user === 'Wife' || item.user === 'Maa Maa';
+        }
+        if(currentUser === 'Son'){
+            return item.user === 'Son';
         }
     });
 

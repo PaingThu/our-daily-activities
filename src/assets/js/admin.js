@@ -25,8 +25,8 @@ const now = new Date().toLocaleDateString(('ja-JP'), { year: 'numeric', month: '
 document.getElementById('date').value = now;
 
 const durationOptions = [
-    '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', 
-    '01:45', '02:00', '02:15', '02:30', '02:45', '03:00'
+    '00:05', '00:10', '00:15', '00:30', '00:45', '01:00', 
+    '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45', '03:00'
 ];
 
 // Load Data
@@ -134,9 +134,9 @@ form.addEventListener('submit', async function(e) {
         form.reset();
         user.value = userValue; // Restore user value after reset
         
-        // Reset defaults
-        const resetNow = new Date();
-        document.getElementById('date').valueAsDate = resetNow;
+        // // Reset defaults
+        // const resetNow = new Date();
+        // document.getElementById('date').valueAsDate = resetNow;
         document.getElementById('time').value = resetNow.toTimeString().substring(0, 5);
         
         toggleDistanceVisibility();

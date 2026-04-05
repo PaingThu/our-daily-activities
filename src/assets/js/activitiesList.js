@@ -13,7 +13,7 @@ const translations = {
         duration: "Duration",
         types: {
             coding: "Coding", meditation: "Meditation", walking: "Walking",
-            running: "Running", learning: "Learning", strength: "Strength",
+            running: "Running", learning: "Learning", gym: "Gym",
             cardio: "Cardio", workout: "Workout", reading: "Reading", stretching: "Stretching"
         }
     },
@@ -29,7 +29,7 @@ const translations = {
         duration: "ကြာချိန်",
         types: {
             coding: "ကုဒ်ရေးခြင်း", meditation: "တရားထိုင်ခြင်း", walking: "လမ်းလျှောက်ခြင်း",
-            running: "ပြေးခြင်း", learning: "လေ့လာခြင်း", strength: "အလေးမခြင်း",
+            running: "ပြေးခြင်း", learning: "လေ့လာခြင်း", gym: "အလေးမခြင်း",
             cardio: "နှလုံးကျန်းမာရေးလေ့ကျင့်ခန်း", workout: "လေ့ကျင့်ခန်း", reading: "စာဖတ်ခြင်း", stretching: "ကိုယ်လက်ဆန့်ခြင်း"
         }
     },
@@ -45,7 +45,7 @@ const translations = {
         duration: "時間",
         types: {
             coding: "コーディング", meditation: "瞑想", walking: "ウォーキング",
-            running: "ランニング", learning: "学習", strength: "筋トレ",
+            running: "ランニング", learning: "学習", gym: "筋トレ",
             cardio: "有酸素運動", workout: "ワークアウト", reading: "読書", stretching: "ストレッチ"
         }
     }
@@ -67,16 +67,16 @@ let memory = [];
 //     { "user": "Me", "type": "Walking", "time": "00:45", "date": "2026-02-25", "distance": "4.2" },
 //     { "user": "Wife", "type": "Running", "time": "00:40", "date": "2026-02-24", "distance": "6.2" },
 //     { "user": "Me", "type": "Learning", "time": "00:30", "date": "2026-02-24" },
-//     { "user": "Wife", "type": "Strength", "time": "01:00", "date": "2026-02-23" },
-//     { "user": "Me", "type": "Strength", "time": "01:15", "date": "2026-02-23" },
+//     { "user": "Wife", "type": "Gym", "time": "01:00", "date": "2026-02-23" },
+//     { "user": "Me", "type": "Gym", "time": "01:15", "date": "2026-02-23" },
 //     { "user": "Me", "type": "Cardio", "time": "00:45", "date": "2026-02-22" },
 //     { "user": "Wife", "type": "Meditation", "time": "00:15", "date": "2026-02-22" },
 //     { "user": "Me", "type": "Coding", "time": "01:00", "date": "2026-01-15" },
 //     { "user": "Wife", "type": "Running", "time": "00:30", "date": "2026-01-12", "distance": "4.0" },
-//     { "user": "Me", "type": "Strength", "time": "00:45", "date": "2026-01-10" },
-//     { "user": "Me", "type": "Strength", "time": "00:45", "date": "2026-01-09" },
-//     { "user": "Me", "type": "Strength", "time": "00:45", "date": "2026-01-08" },
-//     { "user": "Me", "type": "Strength", "time": "00:45", "date": "2026-02-1" }
+//     { "user": "Me", "type": "Gym", "time": "00:45", "date": "2026-01-10" },
+//     { "user": "Me", "type": "Gym", "time": "00:45", "date": "2026-01-09" },
+//     { "user": "Me", "type": "Gym", "time": "00:45", "date": "2026-01-08" },
+//     { "user": "Me", "type": "Gym", "time": "00:45", "date": "2026-02-1" }
 // ]
 
 
@@ -357,11 +357,11 @@ function getActivityConfig(typeStr) {
     if (type.includes('learn')) return { icon: 'book-open', colorClass: 'bg-amber-100 text-amber-600' };
     if (type.includes('read')) return { icon: 'book', colorClass: 'bg-cyan-100 text-cyan-600' };
     if (type.includes('cardio')) return { icon: 'heart', colorClass: 'bg-rose-100 text-rose-600' };
-    if (type.includes('strength')) return { icon: 'dumbbell', colorClass: 'bg-slate-100 text-slate-600' };
+    if (type.includes('gym')) return { icon: 'dumbbell', colorClass: 'bg-slate-100 text-slate-600' };
     if (type.includes('walk')) return { icon: 'footprints', colorClass: 'bg-emerald-100 text-emerald-600' };
-    if (type.includes('run')) return { icon: 'zap', colorClass: 'bg-orange-100 text-orange-600' };
+    if (type.includes('run')) return { icon: 'sport-shoe', colorClass: 'bg-orange-100 text-orange-600' };
     if (type.includes('meditation')) return { icon: 'sparkles', colorClass: 'bg-purple-100 text-purple-600' };
-    if (type.includes('coding')) return { icon: 'code', colorClass: 'bg-blue-100 text-blue-600' };
+    if (type.includes('coding')) return { icon: 'laptop', colorClass: 'bg-blue-100 text-blue-600' };
     return { icon: 'activity', colorClass: 'bg-indigo-100 text-indigo-600' };
 }
 

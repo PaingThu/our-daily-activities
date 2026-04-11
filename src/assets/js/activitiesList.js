@@ -1,4 +1,8 @@
 import { loadingSpinner, WEB_APP_URL } from "./config.js";
+import dadProfileImg from '/assets/images/dad.jpeg';
+import momProfileImg from '/assets/images/mom.jpeg';
+import sonProfileImg from '/assets/images/son.jpeg';
+
 
 const translations = {
     en: {
@@ -83,6 +87,8 @@ let memory = [];
 const container = document.getElementById('memory-container');
 const emptyState = document.getElementById('empty-state');
 const displayArea = document.getElementById('displayArea');
+const userImage = document.getElementById('userImage');
+
 
 // Initial Load
 if (document.readyState === "loading") {
@@ -90,6 +96,24 @@ if (document.readyState === "loading") {
 } else {
     loadData();
 }
+
+function configureUserImage(user) {
+    console.log("Configuring image for user:", user);
+    const img = new Image();
+    if (user === 'Me' || user === 'Paa Paa') {
+        img.src = dadProfileImg;
+    }
+    if (user === 'Wife' || user === 'Maa Maa') {
+        img.src = momProfileImg;
+    }
+    if (user === 'Son') {
+        img.src = sonProfileImg;
+    }
+    img.alt = "Dad Image";
+    img.className = "w-full h-full rounded-full object-cover border-2 border-white shadow-sm";
+    userImage.innerHTML = '';
+    userImage.appendChild(img);
+};
 
 /**
  * Use this function in your local development environment (with a server).
@@ -99,6 +123,9 @@ async function loadData() {
     
     displayArea.innerHTML = loadingSpinner('Data Loading.....');
     container.innerHTML = '';
+    
+    configureUserImage(currentUser);
+   
     try {
         const response = await fetch(WEB_APP_URL);
         const data = await response.json();

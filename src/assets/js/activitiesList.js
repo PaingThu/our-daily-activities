@@ -88,6 +88,7 @@ const container = document.getElementById('memory-container');
 const emptyState = document.getElementById('empty-state');
 const displayArea = document.getElementById('displayArea');
 const userImage = document.getElementById('userImage');
+const activeUserLabel = document.getElementById('active-user-label');
 
 
 // Initial Load
@@ -115,6 +116,12 @@ function configureUserImage(user) {
     userImage.appendChild(img);
 };
 
+function configActiveUserTab(user) {
+    document.querySelectorAll('.user-tab').forEach(btn => btn.classList.remove('user-tab-active'));
+    const activeTab = document.getElementById(`btn-${user}`);
+    if (activeTab) activeTab.classList.add('user-tab-active');
+}
+
 /**
  * Use this function in your local development environment (with a server).
  * Standard browsers block fetch requests to local file:// paths for security.
@@ -125,6 +132,7 @@ async function loadData() {
     container.innerHTML = '';
     
     configureUserImage(currentUser);
+    configActiveUserTab(currentUser);
    
     try {
         const response = await fetch(WEB_APP_URL);
@@ -194,6 +202,7 @@ function toggleMonth(monthId) {
 }
 
 function t(key) {
+    console.log(`Translating key: ${key} for language: ${currentLang}`);
     return translations[currentLang][key] || key;
 }
 
@@ -223,10 +232,7 @@ function updateStaticTexts() {
 function renderMemories(activitiesMemory) {
     updateStaticTexts();
 
-    document.querySelectorAll('.user-tab').forEach(btn => btn.classList.remove('user-tab-active'));
-    const activeTab = document.getElementById(`btn-${currentUser}`);
-    if (activeTab) activeTab.classList.add('user-tab-active');
-    document.getElementById('active-user-label').innerText = t(`${currentUser}`);
+    activeUserLabel.innerText =  t(`${currentUser}View`);
 
     container.innerHTML = '';
     const filteredMemory = activitiesMemory.filter(item => {
